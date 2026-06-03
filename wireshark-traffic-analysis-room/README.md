@@ -22,6 +22,14 @@
 ### 1. TCP Connect Scan (`-sT`)
 * **Behavior:** Completes the full 3-way handshake. Executed by non-privileged users.
 * **Signature:** Window size is typically `> 1024` bytes (expects data).
-* **Wireshark Filter:** 
-```wireshark
-  tcp.flags.syn==1 and tcp.flags.ack==0 and tcp.window_size > 1024
+* **Wireshark Filter:** `tcp.flags.syn==1 and tcp.flags.ack==0 and tcp.window_size > 1024`
+
+### 2. TCP SYN Scan (`-sS`)
+* **Behavior:** Incomplete handshake (tears down the connection with an RST before final ACK). Requires privileged access.
+* **Signature:** Window size is typically `<= 1024` bytes (does not expect data).
+* **Wireshark Filter:** `tcp.flags.syn==1 and tcp.flags.ack==0 and tcp.window_size <= 1024`
+
+### 3. UDP Scan (`-sU`)
+* **Behavior:** Stateless protocol mapping. Open ports typically provide no response.
+* **Signature:** Closed ports return an ICMP Type 3, Code 3 message (Destination/Port Unreachable), which encapsulates the original UDP request data.
+* **Wireshark Filter:** `icmp.type==3 and icmp.code==3`
