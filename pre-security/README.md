@@ -17,7 +17,7 @@
 * **Second Level Domain:** in Kitwp.com the kitwp is the second level domain which is limited to 63 characters and can only use a-z 0-9 and hypens in the middle. and also maximum length of a domain name is 253 characters.
 * **DNS Records:** DNS records are domain settings on DNS servers that connect a domain to an IPv4 address (A), IPv6 address (AAAA), another domain (CNAME), email servers (MX), or text-based info like verification and security (TXT).
 
-`Note: Tim Berners-Lee made developed th HTTP`
+`Note: Tim Berners-Lee developed th HTTP`
 ---
 * **Cookies:** are small pieces of data stored in your browser that help websites remember who you are, your settings, and your session between requests. 
  
@@ -39,4 +39,8 @@ PUT /users/1     -> Replace user 1
 PATCH /users/1   -> Update part of user 1
 DELETE /users/1  -> Delete user 1
 ```
+---
 
+### Boot Sequence:
+
+![boot sequence](boot.png)
