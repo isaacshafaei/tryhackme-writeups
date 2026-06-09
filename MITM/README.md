@@ -127,7 +127,8 @@ index=firewall
 | stats dc(dest_port) as unique_ports_hit by dest_ip
 | sort - unique_ports_hit
 | head 5
-
+```
 ---
+
 in the below pictures you can see that the fucking attacker with 02:fe:fe:fe:55:55 mac address is lying like a dog 14 time:
 ![ARP lying](arp-lies.png)
