@@ -132,3 +132,129 @@ index=firewall
 
 in the below pictures you can see that the fucking attacker with 02:fe:fe:fe:55:55 mac address is lying like a dog 14 time:
 ![ARP lying](arp-lies.png)
+
+---
+
+### DNS Spoofing (MITM) – Key Points
+
+* DNS translates domain names into IP addresses.
+* DNS Spoofing (Cache Poisoning) tricks victims into resolving a domain to an attacker's IP.
+
+### Attack Flow
+
+1. Victim requests a domain.
+2. Attacker intercepts the DNS query.
+3. Attacker sends a forged DNS response.
+4. Victim is redirected to a malicious server.
+5. Credentials and sensitive data can be stolen.
+
+### Indicators of Attack
+
+* Multiple DNS responses for the same query
+* DNS replies from unexpected IPs
+* Very low TTL values
+* Unsolicited DNS responses
+
+### Wireshark Filters
+
+* All DNS traffic:
+
+```wireshark
+dns
+```
+* DNS request:
+`dns.flags.response == 0`
+
+* DNS responses:
+
+```wireshark
+dns.flags.response == 1
+```
+
+* Responses from legitimate DNS server:
+
+```wireshark
+dns.flags.response == 1 && ip.src == 8.8.8.8
+```
+
+* Responses from suspicious sources:
+
+```wireshark
+dns.flags.response == 1 && ip.src != 8.8.8.8
+```
+
+* Specific domain investigation:
+
+```wireshark
+dns && dns.qry.name == "corp-login.acme-corp.local"
+```
+
+### Goal
+
+* Detect forged DNS replies.
+* Identify rogue DNS servers.
+* Confirm victim redirection as part of a MITM attack.
+
+---
+
+### SSL Stripping (MITM) – Key Points
+
+* SSL Stripping downgrades **HTTPS → HTTP**, allowing attackers to intercept plaintext traffic.
+* The attacker maintains an HTTPS session with the server while the victim communicates over HTTP.
+
+### Attack Flow
+
+1. ARP Spoofing → Gain MITM position.
+2. DNS Spoofing → Redirect victim to attacker.
+3. SSL Stripping → Replace HTTPS with HTTP.
+4. Capture credentials and sensitive data in plaintext.
+
+### Indicators
+
+* HTTPS traffic suddenly switches to HTTP.
+* Missing TLS handshakes for a domain that normally uses HTTPS.
+* HTTP redirects (`301`, `302`) to insecure resources.
+* Credentials visible in cleartext HTTP POST requests.
+
+### Wireshark Filters
+
+* TLS/SSL traffic:
+
+```wireshark
+tls || ssl
+```
+
+* TLS handshakes for a domain:
+
+```wireshark
+tls.handshake.type == 1 && tls.handshake.extensions_server_name == "corp-login.acme-corp.local"
+```
+
+* Spoofed DNS responses:
+
+```wireshark
+dns.flags.response == 1 && ip.src == 192.168.10.55
+```
+
+* HTTP traffic between victim and attacker:
+
+```wireshark
+http && ip.src == 192.168.10.10 && ip.dst == 192.168.10.55
+```
+
+### Attack Timeline
+
+1. ARP Spoofing → Gateway poisoning
+2. DNS Spoofing → Victim redirected to attacker
+3. SSL Stripping → HTTPS downgraded to HTTP
+4. Credential Theft → Login data captured in plaintext
+
+### Goal
+
+* Detect HTTPS downgrades.
+* Verify missing TLS traffic.
+* Identify exposed credentials and successful MITM attacks.
+---
+Our hypothesis about SSL stripping is that it is done after the attacker has successfully performed DNS spoofing, sending the victim to the attacker's IP. In the previous task, we identified the attacker's IP address performing the DNS spoofing. Let's isolate DNS responses from the attacker to show the victim was pointed to the attacker's IP, as shown below:
+![dns spoofing](DNS-spoofing.png)
+The above result shows two incidents in which the attacker's IP sent spoofed DNS responses for the domain of interest. 
