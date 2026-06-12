@@ -98,7 +98,7 @@ Attackers often manipulate accounts for **persistence, privilege escalation, or 
 * Users added to privileged groups
 
 **Investigation:** Check suspicious events → copy **Logon ID** → find matching **4624 login** → trace attacker activity.
----
+------
 **Process Monitoring – Summary**
 
 Process logs help identify **how a system was compromised**, not just who logged in.
@@ -133,4 +133,142 @@ Process logs help identify **how a system was compromised**, not just who logged
 3. Trace parent processes upward (process tree)
 4. Use **Logon ID** to correlate with Security logs and reconstruct the attack chain.
 ----
-salam
+
+# Sysmon – Short Notes
+
+## Why Sysmon?
+
+* Logs more than process creation:
+
+  * File changes
+  * Registry changes
+  * Network connections
+  * DNS queries
+* Configurable → choose what to log or ignore.
+
+## Important Event IDs
+
+| Event ID | Purpose                                                |
+| -------- | ------------------------------------------------------ |
+| 11       | File Create → detect malware dropped files             |
+| 13       | Registry Value Set → detect persistence/config changes |
+| 3        | Network Connection → detect suspicious traffic         |
+| 22       | DNS Query → detect malicious domain lookups            |
+
+## Event Correlation
+
+* Most Sysmon events contain:
+
+  * `ProcessId`
+  * Process-related fields
+* Missing details (parent process, full context) → check **Event ID 1 (Process Creation)**.
+* Use:
+
+  ```text
+  ProcessId → find Event ID 1 → get full process context
+  ```
+
+## Investigation Flow
+
+1. Open Event ID 1
+2. Copy `ProcessId`
+3. Search other Sysmon events using same `ProcessId`
+4. Rebuild attack chain
+
+## Network Red Flags
+
+* External IP connections on:
+
+  * Port 80
+  * Non-standard ports (e.g. 4444)
+* Known malicious IPs
+* Suspicious DNS:
+
+  * `.top`
+  * `.click`
+  * Random domains
+
+## File / Registry Red Flags
+
+* Files created in:
+
+  * `C:\Temp`
+  * `C:\Users\Public`
+* Dropped files:
+
+  * `.bat`
+  * `.ps1`
+  * `.exe`
+  * `.com`
+* Registry/file changes used for persistence
+---------
+# PowerShell Logging – Short Notes
+
+## Why PowerShell is Important
+
+* Built into Windows and highly trusted.
+* Common attacker uses:
+
+  * Malware download
+  * System discovery
+  * Data exfiltration
+  * Process injection
+
+## Problem with Sysmon Event ID 1
+
+* Event ID 1 only logs:
+
+  ```text
+  powershell.exe started
+  ```
+* It does **not** show commands executed inside PowerShell.
+
+Example:
+
+```powershell
+Get-ChildItem
+Get-Content secrets.txt
+Get-LocalUser
+Invoke-WebRequest http://... -OutPath C:\Temp\a.exe
+```
+
+→ Still appears as one `powershell.exe` process.
+
+## Why This Happens
+
+* Normal programs → one task = one process.
+* PowerShell → one process can run **many commands**.
+* Need additional logging beyond Sysmon.
+
+## PowerShell History File
+
+Location:
+
+```text
+C:\Users\<USER>\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
+```
+
+## What It Logs
+
+* Every command typed in PowerShell
+* Updated immediately after pressing Enter
+
+## Investigation Value
+
+Useful for detecting:
+
+* System discovery
+* File access
+* Malware download
+* Command execution history
+
+## Key Notes
+
+* Separate history file per user
+* Persists after reboot
+* Stores command history long-term
+* Does NOT record:
+
+  * Command output
+  * Script content (`powershell .\script.ps1`)
+
