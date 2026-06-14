@@ -117,3 +117,67 @@ Retrieve flag from **You Win! → Database1337**
 ### Future Investigation Checklist
 
 **Traffic → Extract → Decode → Decrypt → Reconstruct → Exploit → Recover**
+---------------
+**ProcDump** is a Microsoft **Sysinternals** tool used to create a **memory dump** of a running process.
+
+A **memory dump (.dmp)** is a snapshot of everything stored in a program’s RAM at a specific moment.
+
+Think of it like:
+
+```text
+Running Program → RAM → ProcDump → process.dmp
+```
+
+### Why people use ProcDump (legitimate use)
+
+* Debug application crashes
+* Analyze memory issues
+* Investigate performance problems
+* Collect forensic evidence
+
+Example:
+
+```bash
+procdump.exe -ma chrome.exe dump.dmp
+```
+
+Meaning:
+
+* `-ma` → full memory dump
+* `chrome.exe` → target process
+* `dump.dmp` → output file
+
+### In your CTF
+
+The attacker used:
+
+```powershell
+procdump.exe -ma <KeePass_PID> 1337.dmp
+```
+
+This means:
+
+1. Find **KeePass** process
+2. Dump all KeePass memory
+3. Save it as `1337.dmp`
+4. Search memory for secrets (master password)
+
+Why this worked:
+
+* KeePass had the **master password temporarily stored in RAM**
+* The attacker later extracted it using the KeePass vulnerability
+
+### Important DFIR lesson
+
+If malware runs **ProcDump + LSASS + KeePass + browser processes**, that’s a strong sign of:
+
+* Credential dumping
+* Secret extraction
+* Data exfiltration
+
+Common targets:
+
+* **lsass.exe** → Windows credentials
+* **KeePass.exe** → password vaults
+* **chrome.exe / firefox.exe** → cookies & sessions
+
