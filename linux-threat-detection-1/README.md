@@ -183,6 +183,7 @@ Even if logs show a harmless command, process tree analysis can reveal:
 here you can see an example of reverse shell:
 Reverse shell via command injection in `/bin/sh`.
 
+![reverse shell](reverse-shell.png)
 1. Initial execution:
 
 ```
