@@ -92,3 +92,25 @@ Delegated users (like Helpdesk staff) may not have access to the ADUC GUI and mu
 `Delegation`
 ---
 
+# AD Machine Organization
+
+## 🖥️ The Default Container Problem
+
+By default, newly joined machines (except DCs) are placed in the **Computers** container. Leaving them there makes applying specific Group Policies difficult, as servers and user endpoints require different rules.
+
+## 🗂️ Device Segregation Strategy
+
+Best practice dictates segregating machines into specific Organizational Units (OUs) based on their role:
+
+* **Workstations:** Daily-use machines for regular users (laptops, PCs). Highly privileged accounts should *never* log into these.
+* **Servers:** Machines providing network services. Require stricter security policies than workstations.
+* **Domain Controllers (DCs):** The most sensitive servers that manage AD and store password hashes. (Windows isolates these in a default "Domain Controllers" OU automatically).
+
+## 🛠️ Actionable Cleanup
+
+To tidy the domain environment:
+
+1. Create dedicated **Workstations** and **Servers** OUs at the domain root.
+2. Move respective computer objects from the default `Computers` container into these new, role-specific OUs so you can apply targeted policies later.
+---
+
