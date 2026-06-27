@@ -281,4 +281,105 @@ C:\Windows\System32\svchost.exe -k DcomLaunch
 * Unknown or malicious `ServiceDLL`
 
 **Practice answer:** The expected command-line parameter is `-k`, so the letter is **k**.
+---
+### `lsass.exe` — Local Security Authority Subsystem Service
+
+`lsass.exe` enforces Windows security policy and handles authentication.
+
+### Main Functions
+
+* Verifies user logins
+* Handles password changes
+* Creates access tokens
+* Writes events to Windows Security Logs
+* Supports authentication for:
+
+  * SAM
+  * Active Directory
+  * NETLOGON
+
+Authentication settings are stored under:
+
+```text
+HKLM\System\CurrentControlSet\Control\Lsa
+```
+
+### Normal Behaviour
+
+* **Path:** `C:\Windows\System32\lsass.exe`
+* **Parent:** `wininit.exe`
+* **Instances:** One
+* **User:** `Local System`
+* **Start:** Within seconds of boot
+
+### Suspicious Indicators
+
+* Parent is not `wininit.exe`
+* Path is outside `System32`
+* Misspelled process name
+* Multiple instances
+* Not running as `SYSTEM`
+* Credential dumping activity, e.g. Mimikatz
+
+**Practice answer:** The parent process of `lsass.exe` is **wininit.exe**.
+---
+### `winlogon.exe` — Windows Logon Process
+
+`winlogon.exe` handles Windows user logon and session security.
+
+### Main Functions
+
+* Handles **CTRL + ALT + DELETE** secure attention sequence
+* Loads the user profile
+* Loads `NTUSER.DAT` into `HKCU`
+* Supports screen lock and screensaver
+* Works with `userinit.exe` to load the user shell
+
+### Normal Behaviour
+
+* **Path:** `C:\Windows\System32\winlogon.exe`
+* **Created by:** `smss.exe`
+* **Parent:** Usually appears absent because `smss.exe` exits
+* **Instances:** One or more, depending on active sessions
+* **User:** `Local System`
+* **Start:** Within seconds of boot for the first session
+
+### Suspicious Indicators
+
+* Visible running parent process
+* Path outside `System32`
+* Misspelled process name
+* Not running as `SYSTEM`
+* Registry shell value is not `explorer.exe`
+
+**Practice answer:** The non-existent parent process for `winlogon.exe` is **smss.exe**.
+---
+### `explorer.exe` — Windows Explorer
+
+`explorer.exe` provides the user interface for Windows.
+
+### Main Functions
+
+* Gives access to files and folders
+* Provides the Desktop, Start Menu, and Taskbar
+* Launches many user child processes
+
+### Normal Behaviour
+
+* **Path:** `C:\Windows\explorer.exe`
+* **Created by:** `userinit.exe`
+* **Parent:** Usually appears absent because `userinit.exe` exits
+* **Instances:** One or more per logged-in user
+* **User:** Logged-in user
+* **Start:** When an interactive user logs in
+
+### Suspicious Indicators
+
+* Visible running parent process
+* Path outside `C:\Windows`
+* Running as an unknown user
+* Misspelled process name
+* Unexpected outbound TCP/IP connections
+
+**Practice answer:** The non-existent parent process for `explorer.exe` is **userinit.exe**.
 
