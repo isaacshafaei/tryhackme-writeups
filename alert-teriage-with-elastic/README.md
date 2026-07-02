@@ -198,3 +198,61 @@ Event id of new user creation in window is 4720
 i used this code `@timestamp >= "2025-07-20T05:11:27.996" and winlog.event_id : 4720`
 and then from left sidebar add the `winlog.event_data.TargetUserName`
 ---
+Here’s a short note:
+
+Investigate suspicious CMD activity from the Administrator account using Sysmon and Windows Security logs. Start by checking child processes launched by `cmd.exe`, confirming who launched them, and looking for privilege changes.
+
+Useful queries:
+`@timestamp >= "2025-07-20T05:13:15" and process.parent.name:cmd.exe and user.name:Administrator`
+
+Then correlate with Security Event ID `4732` to confirm group membership changes:
+`@timestamp >= "2025-07-20T05:13:15" and (winlog.event_id:4732 or process.parent.name:cmd.exe)`
+
+PowerShell logs should also be reviewed using Event ID `4104`:
+`@timestamp >= "2025-07-20T05:13:15" and event.module:powershell and event.code:4104`
+
+Key findings:
+
+* The attacker added `svc_backup` to Remote Desktop Users using:
+  `net localgroup "Remote Desktop Users" svc_backup /add`
+* The Security 4732 record ID for adding the user to Administrators was `17254`.
+* The attacker ran:
+  `net group "Domain Admins" /domain`
+* The attacker used `Rar.exe` to create the archive:
+  `finance_it_archive.rar`
+
+Overall, the activity shows attacker escalation from Administrator CMD usage to backdoor account creation, group modification, PowerShell discovery, and archive creation.
+---
+Here’s a shorter clean note:
+
+Investigated suspicious command-line activity from the Administrator account to check possible privilege escalation.
+
+First, Sysmon logs were searched for commands launched by `cmd.exe`:
+
+`@timestamp >= "2025-07-20T05:13:15" and process.parent.name:cmd.exe and user.name:Administrator`
+
+The attacker added the backdoor account `svc_backup` to the Remote Desktop Users group using:
+
+`net localgroup "Remote Desktop Users" svc_backup /add`
+
+Next, Sysmon events were correlated with Windows Security Event ID `4732` to confirm group membership changes:
+
+`@timestamp >= "2025-07-20T05:13:15" and (winlog.event_id:4732 or process.parent.name:cmd.exe)`
+
+The `winlog.record_id` for adding the user to the Administrators group was:
+
+`17254`
+
+PowerShell logs were then reviewed using Event ID `4104`:
+
+`@timestamp >= "2025-07-20T05:13:15" and event.module:powershell and event.code:4104`
+
+The attacker ran:
+
+`net group "Domain Admins" /domain`
+
+Finally, Sysmon logs showed `Rar.exe` was used by the newly created account to create an archive:
+
+`finance_it_archive.rar`
+
+Overall, the evidence shows a clear attack timeline: ProxyLogon exploitation, RDP login as Administrator, backdoor account creation, group privilege changes, PowerShell discovery, and archive creation. This incident should be escalated to L2/Senior SOC with proper documentation.
