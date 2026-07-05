@@ -853,3 +853,145 @@ Low-privilege access
 
 Main lesson: after stable access, attackers often try **privilege escalation** so their next payload runs with higher permissions and gives stronger control over the machine.
 ---
+## Short Note: Fully-Owned Machine
+
+After gaining **SYSTEM** privileges, the attacker created new local users, added one to the local Administrators group, and created a Windows service for persistence.
+
+---
+
+### 1. Created accounts
+
+Answer:
+
+```text
+shion,shuna
+```
+
+How to find:
+
+```text
+Windows Event Logs → Event ID 4720
+```
+
+Why attacker used it:
+
+```text
+To create backup accounts for continued access.
+```
+
+---
+
+### 2. Missing option in failed account creation
+
+Answer:
+
+```text
+/add
+```
+
+How to find:
+
+```text
+Sysmon Event ID 1 → search net user
+```
+
+The failed command was missing `/add`, so Windows did not create a new user.
+
+Correct syntax:
+
+```cmd
+net user username password /add
+```
+
+---
+
+### 3. Event ID for successful account creation
+
+Answer:
+
+```text
+4720
+```
+
+Meaning:
+
+```text
+Event ID 4720 = A user account was created
+```
+
+---
+
+### 4. Command used to add user to Administrators group
+
+Answer:
+
+```cmd
+net localgroup administrators /add shion
+```
+
+How to find:
+
+```text
+Sysmon Event ID 1 → search net localgroup
+```
+
+Why attacker used it:
+
+```text
+To give shion administrative privileges.
+```
+
+---
+
+### 5. Event ID for adding account to sensitive local group
+
+Answer:
+
+```text
+4732
+```
+
+Meaning:
+
+```text
+Event ID 4732 = A member was added to a security-enabled local group
+```
+
+---
+
+### 6. Persistence command
+
+Answer:
+
+```cmd
+C:\Windows\system32\sc.exe \\TEMPEST create TempestUpdate2 binpath= C:\ProgramData\final.exe start= auto
+```
+
+How to find:
+
+```text
+Sysmon Event ID 1 → search sc.exe or TempestUpdate2
+```
+
+Why attacker used it:
+
+```text
+To create an auto-start Windows service that runs final.exe after reboot.
+```
+
+---
+
+## Attack Flow
+
+```text
+SYSTEM access
+→ create users shion and shuna
+→ failed first because /add was missing
+→ successful account creation logged as Event ID 4720
+→ add shion to Administrators group
+→ group addition logged as Event ID 4732
+→ create auto-start service TempestUpdate2
+→ final.exe runs persistently as C2 malware
+```
+
+Main lesson: after privilege escalation, attackers often create users and services to keep long-term administrative access.
