@@ -718,3 +718,138 @@ WinRM / wsmprovhost.exe = remote authentication/execution
 ```
 ---
 
+## Short Note: Privilege Escalation
+
+In this stage, the attacker already had access through the reverse SOCKS proxy. Next, they checked the user’s privileges and downloaded a privilege escalation tool to become **SYSTEM**.
+
+---
+
+### 1. Privilege escalation binary and hash
+
+Answer:
+
+```text
+spf.exe,8524FBC0D73E711E69D60C64F1F1B7BEF35C986705880643DD4D5E17779E586D
+```
+
+How to find:
+
+```text
+Timeline Explorer → EventId = 1 → search spf.exe
+Check Image, CommandLine, and Hashes field
+```
+
+Why attacker used it:
+
+```text
+spf.exe was used to escalate privileges from user benimaru to SYSTEM.
+```
+
+---
+
+### 2. Tool name
+
+Answer:
+
+```text
+printspoofer
+```
+
+How to find:
+
+```text
+Take SHA256 hash → search/identify hash → tool matches PrintSpoofer
+```
+
+Why attacker used it:
+
+```text
+PrintSpoofer is used for Windows privilege escalation.
+```
+
+---
+
+### 3. Exploited privilege
+
+Answer:
+
+```text
+SeImpersonatePrivilege
+```
+
+Why attacker used it:
+
+```text
+This privilege can be abused by PrintSpoofer to impersonate a privileged token and execute commands as NT AUTHORITY\SYSTEM.
+```
+
+How to find:
+
+```text
+Look for commands like whoami /priv in C2 output or process logs.
+```
+
+---
+
+### 4. Binary executed with PrintSpoofer
+
+Answer:
+
+```text
+final.exe
+```
+
+How to find:
+
+```text
+Timeline Explorer → EventId = 1 → search spf.exe
+Check ParentCommandLine:
+"C:\Users\benimaru\Downloads\spf.exe" -c C:\ProgramData\final.exe
+```
+
+Why attacker used it:
+
+```text
+The attacker used PrintSpoofer to launch final.exe with SYSTEM privileges.
+```
+
+---
+
+### 5. New C2 port
+
+Answer:
+
+```text
+8080
+```
+
+How to find:
+
+```text
+Sysmon EventId = 3 → search final.exe
+or Brim → search final.exe
+Check destination port
+```
+
+Why attacker used it:
+
+```text
+After privilege escalation, final.exe connected to a new C2 channel on port 8080, likely for higher-privileged control.
+```
+
+---
+
+## Attack flow
+
+```text
+Low-privilege access
+→ reverse SOCKS proxy established
+→ attacker checks privileges
+→ downloads spf.exe / PrintSpoofer
+→ abuses SeImpersonatePrivilege
+→ runs C:\ProgramData\final.exe as SYSTEM
+→ final.exe connects to C2 on port 8080
+```
+
+Main lesson: after stable access, attackers often try **privilege escalation** so their next payload runs with higher permissions and gives stronger control over the machine.
+---
