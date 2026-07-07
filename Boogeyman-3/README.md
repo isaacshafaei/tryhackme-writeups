@@ -1,4 +1,4 @@
-## Boogeyman 3 — Full Short Note: Lurking in the Dark
+## Boogeyman 3 : Full Short Note: Lurking in the Dark
 
 ### Scenario
 
