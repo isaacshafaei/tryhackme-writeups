@@ -1,4 +1,5 @@
 #Bengin Splunk 
+
 for this first question:
 index="win_eventlogs"
 | stats count by UserName
