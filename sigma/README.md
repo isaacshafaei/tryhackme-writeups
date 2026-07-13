@@ -222,3 +222,34 @@ Search Logs & Validate
 * Convert Sigma to your SIEM before deployment
 * Test and tune queries to reduce false positives
 ---
+## Sigma Investigation Notes — Short
+
+Different SIEMs and converters may generate **different queries** from the same Sigma rule because each SIEM uses different field names and syntax. 
+
+### Key Points
+
+| Concept              | Meaning                                                                           |
+| -------------------- | --------------------------------------------------------------------------------- |
+| **Same Sigma Rule**  | Can produce different SIEM queries                                                |
+| **Sigmac / pySigma** | Converts Sigma to SIEM-specific queries                                           |
+| **Uncoder.io**       | Online Sigma converter                                                            |
+| **Field Mapping**    | Different SIEMs use different field names (e.g., `Image` vs `process.executable`) |
+| **Query Tuning**     | You may need to adjust regex, escaping, or field names for your environment       |
+
+### Example
+
+```text id="kz9w1l"
+Sigma Rule
+      ↓
+Sigmac → Image + CommandLine
+Uncoder → process.executable + process.command_line
+```
+
+Both detect the **same behavior**, but the generated queries differ.
+
+### Key Idea
+
+```text id="a34w8v"
+Sigma is portable, but the converted query may need tuning to match your SIEM's field names and syntax.
+```
+---
