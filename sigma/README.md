@@ -160,3 +160,65 @@ Modifiers refine matching (contains, startswith, endswith, regex)
 | Detection consists of?                | **Search Identifiers + Condition Expressions** |
 | Search identifier data structures?    | **Lists and Maps**                             |
 ---
+## Sigma Rule Writing & Conversion — Short Note
+
+Write Sigma rules based on **threat intelligence** and convert them to your SIEM query language. 
+
+## Rule Writing Process
+
+| Step                 | Purpose                                                   |
+| -------------------- | --------------------------------------------------------- |
+| **1. Analyze Intel** | Extract IOCs, commands, paths, registry keys, persistence |
+| **2. Rule Info**     | Title, description, status                                |
+| **3. Log Source**    | Select product & log category                             |
+| **4. Detection**     | Define search fields + condition                          |
+| **5. Metadata**      | Add severity, ATT&CK tags, references, false positives    |
+
+## Detection Example
+
+```yaml id="9vwqnt"
+CommandLine|contains|all:
+  - '--install'
+  - '--start-with-win'
+CurrentDirectory|contains:
+  - 'C:\ProgramData\AnyDesk.exe'
+condition: selection
+```
+
+## Sigma Conversion
+
+Sigma rules must be converted before using them in a SIEM.
+
+| Tool           | Purpose                                                      |
+| -------------- | ------------------------------------------------------------ |
+| **Sigmac**     | Convert Sigma → Splunk, Elastic, QRadar, etc. *(deprecated)* |
+| **pySigma**    | Modern replacement for Sigmac                                |
+| **Uncoder.io** | Online Sigma converter                                       |
+
+### Sigmac Example
+
+```bash id="0jgdq8"
+python3.9 sigmac -t splunk -c splunk-windows rule.yml
+```
+
+## Workflow
+
+```text id="t4wejp"
+Threat Intel
+      ↓
+Write Sigma Rule
+      ↓
+Convert (Sigmac / pySigma / Uncoder)
+      ↓
+SIEM Query
+      ↓
+Search Logs & Validate
+```
+
+## Key Points
+
+* Build rules from **real threat intelligence**
+* Detect attacker **behavior**, not just IOCs
+* Convert Sigma to your SIEM before deployment
+* Test and tune queries to reduce false positives
+---
