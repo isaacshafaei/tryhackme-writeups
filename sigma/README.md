@@ -253,3 +253,92 @@ Both detect the **same behavior**, but the generated queries differ.
 Sigma is portable, but the converted query may need tuning to match your SIEM's field names and syntax.
 ```
 ---
+## Sigma Investigation — Short Note
+
+In this scenario, we used Sigma rules to detect:
+
+* **Scheduled task creation** using `\schtasks.exe`
+* Task name from the command line after `/TN`
+* Task execution time from the command arguments
+* **Ransomware file creation** using `file_event`
+* Created file name from `process.command_line`
+* File creation Event ID: **11**
+* Ransom note content from an `echo ... > file.txt` command
+
+Workflow:
+
+```text
+Write Sigma rule
+→ Convert to Elastic/Lucene query
+→ Search in Kibana
+→ Open matching event
+→ Inspect command line and event fields
+```
+
+Important lesson: choose the correct log source:
+
+```text
+Process execution → process_creation
+File creation/change → file_event
+```
+
+Converted Sigma queries may need small changes to field names, slashes, or escaping before they work in your SIEM. 
+
+## Add a PDF to GitHub before `git push`
+
+First copy or move the PDF into your repository:
+
+```bash
+cp /path/to/file.pdf ~/your-repository/
+```
+
+Go to the repository:
+
+```bash
+cd ~/your-repository
+```
+
+Check the file:
+
+```bash
+ls -lh
+git status
+```
+
+Add the PDF:
+
+```bash
+git add file.pdf
+```
+
+Or add all changed files:
+
+```bash
+git add .
+```
+
+Commit:
+
+```bash
+git commit -m "Add PDF report"
+```
+
+Push:
+
+```bash
+git push origin main
+```
+
+Complete example:
+
+```bash
+cp ~/Downloads/report.pdf ~/tryhackme-writeups/
+cd ~/tryhackme-writeups
+git add report.pdf
+git commit -m "Add Sigma room PDF"
+git push origin main
+```
+
+```markdown
+[Download the PDF report](SigmacheatsheetPDF-1673525775585.pdf)
+```
