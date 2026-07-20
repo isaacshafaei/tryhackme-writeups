@@ -159,3 +159,28 @@ Common techniques:
 * Inspect encrypted traffic
 * Use honeypots
 ---
+## Actions on Objectives
+
+The attacker uses access to achieve their final goal, such as:
+
+* **Data exfiltration:** Stealing sensitive information
+* **Ransomware:** Encrypting files and demanding payment
+* **Destruction:** Deleting or corrupting data
+* **Financial theft:** Fraudulent transactions
+* **Lateral movement:** Compromising other systems
+* **ICS manipulation:** Controlling industrial systems
+
+### Defences
+
+* Data Loss Prevention (DLP)
+* Reliable backups
+* Network segmentation
+* Strict access controls
+* Principle of least privilege
+* User monitoring and EDR
+
+**Stealing sensitive files:** Data exfiltration
+**Limiting access:** Principle of least privilege
+**Encrypting files for payment:** Ransomware
+---
+
