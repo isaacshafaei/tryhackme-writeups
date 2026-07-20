@@ -95,3 +95,25 @@ Delivery is the stage where the attacker sends the prepared malicious payload to
 **Malicious advertisements:** Malvertising
 **Phishing through SMS:** Smishing
 
+---
+## Exploitation
+
+The attacker uses a weakness to gain access, such as:
+
+* Weak/default passwords
+* Software vulnerabilities
+* Misconfigurations
+* SQL injection or buffer overflow
+* Zero-day exploits
+
+### Defences
+
+* Strong passwords and MFA
+* Patch management
+* Vulnerability scanning
+* IPS and WAF
+
+**Unknown-to-vendor exploit:** Zero-day
+**Protection with stolen credentials:** MFA
+---
+
