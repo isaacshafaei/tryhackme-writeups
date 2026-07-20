@@ -68,3 +68,30 @@ A common method is using malicious Microsoft Office macros that execute code whe
 
 **Technique used to make malicious code harder to analyse:** Obfuscation
 **What built-in feature makes creating a malicious MS Office document possible? ** Macro
+---
+## Delivery
+
+Delivery is the stage where the attacker sends the prepared malicious payload to the target.
+
+### Common Delivery Methods
+
+* **Phishing:** Malicious email attachments or links.
+* **Spear phishing:** Targeted emails impersonating a trusted person.
+* **Malicious links:** Spoofed domains or shortened URLs.
+* **File-sharing platforms:** Hosting malicious files on trusted services.
+* **Malvertising:** Malicious ads redirect users to harmful websites.
+* **Smishing:** SMS messages containing malicious links.
+* **Social engineering:** Convincing users to run malware.
+* **Physical delivery:** USB drives, DVDs, or other removable media.
+
+### Countermeasures
+
+* Security awareness training
+* Email and web filtering
+* Web Application Firewalls
+* Network monitoring
+* Patch management
+
+**Malicious advertisements:** Malvertising
+**Phishing through SMS:** Smishing
+
