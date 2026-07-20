@@ -117,3 +117,45 @@ The attacker uses a weakness to gain access, such as:
 **Protection with stolen credentials:** MFA
 ---
 
+## Installation
+
+The attacker creates **persistence** so they can return without exploiting the system again.
+
+Common methods:
+
+* Scheduled tasks or cron jobs
+* Startup scripts
+* Malicious services or daemons
+* Backdoors, rootkits, and malware
+* Web shells
+* Living-off-the-land binaries (LOLBins)
+
+### Defences
+
+* Monitor new processes and services
+* Use EDR
+* Audit systems against secure baselines
+* Detect unauthorised accounts or changes
+* Use application allowlisting
+---
+## Command and Control (C2)
+
+C2 creates a hidden communication channel between compromised systems and the attacker.
+
+Common techniques:
+
+* HTTP, HTTPS, DNS, or SMTP traffic
+* Encryption and obfuscation
+* DNS tunnelling
+* Cloud or social media services
+* **DGA:** Generates many backup domains
+* **Fast Flux:** Frequently changes domain IP addresses
+
+### Defences
+
+* Monitor traffic with firewalls, IDS, and IPS
+* Analyse suspicious DNS and web traffic
+* Block malicious domains and IPs
+* Inspect encrypted traffic
+* Use honeypots
+---
