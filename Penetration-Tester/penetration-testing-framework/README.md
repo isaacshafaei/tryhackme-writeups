@@ -114,3 +114,51 @@ The **Penetration Testing Execution Standard (PTES)** provides a practical, end-
 
 **Scope, rules, and authorization:** Phase 1 — Pre-Engagement Interactions
 ---
+## ISSAF
+
+**ISSAF** is an older, unmaintained penetration testing framework. Its tools are outdated, but its attack methodology remains useful.
+
+### Three Phases
+
+1. **Planning and Preparation:** Define scope, limits, contacts, and tools.
+2. **Assessment:** Follow the nine-step attack model.
+3. **Reporting and Cleanup:** Report findings and remove testing artifacts.
+
+### Nine Assessment Steps
+
+1. Information gathering
+2. Network mapping
+3. Vulnerability identification
+4. Penetration
+5. Privilege escalation
+6. Further enumeration
+7. Lateral movement
+8. Maintaining access
+9. Covering tracks
+
+**Final step:** Covering tracks
+---
+## MITRE ATT&CK
+
+**MITRE ATT&CK** is a knowledge base of real-world attacker behaviour. It complements penetration testing frameworks by providing standard names and IDs for adversary actions.
+
+### Structure
+
+* **Tactics:** High-level attacker goals — the **why**.
+* **Techniques:** Methods used to achieve goals — the **how**.
+* **Sub-techniques:** More specific versions of techniques.
+
+ATT&CK helps map pentest findings to real attack behaviour, detection guidance, and mitigations.
+
+Examples:
+
+* Phishing attachment: `T1566.001`
+* Public-facing application exploit: `T1190`
+* Credential dumping: `T1003`
+* Lateral movement with stolen credentials: `T1550`
+
+**Matrix columns:** Tactics
+**Rows:** Techniques
+**Public-facing application exploit:** `T1190`
+---
+
