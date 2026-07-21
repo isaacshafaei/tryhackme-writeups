@@ -162,3 +162,17 @@ Examples:
 **Public-facing application exploit:** `T1190`
 ---
 
+## Specialized Security Frameworks
+
+* **WASC Threat Classification:** Older taxonomy for web application threats; mostly replaced by OWASP.
+* **CSA Cloud Controls Matrix (CCM):** Cloud governance and compliance controls.
+* **OWASP MASTG:** Security testing guide for Android and iOS applications.
+* **PCI DSS Penetration Testing Guidelines:** Mandatory testing requirements for organisations handling cardholder data.
+* **CBEST:** Threat-intelligence-led penetration testing for UK financial institutions.
+
+Framework selection depends on the client’s industry, technology, regulations, and location.
+
+**Online retailer processing cards:** PCI DSS Penetration Testing Guidelines
+**iOS banking application:** OWASP Mobile Application Security Testing Guide
+**AWS controls assessment:** CSA Cloud Controls Matrix
+---
