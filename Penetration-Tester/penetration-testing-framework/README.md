@@ -51,3 +51,66 @@ Reports follow the **STAR** format.
 **Phase after Interaction:** Inquiry — test whether exposure can lead to unauthorised access.
 ---
 
+## OWASP Web Security Testing Guide (WSTG)
+
+The **WSTG** is a detailed framework for testing web applications. It contains more than 90 test cases across 12 categories, including:
+
+* Authentication and authorisation
+* Session management
+* Input validation
+* Cryptography
+* Business logic
+* Client-side and API testing
+
+It uses a **risk-based approach**, prioritising vulnerabilities by exploitability and impact.
+
+### SDLC Phases
+
+1. Define security requirements before development.
+2. Review architecture and threat models during design.
+3. Review and test code during development.
+4. Verify security during deployment.
+5. Perform periodic testing during maintenance.
+
+**Input validation identifier:** `WSTG-INPV`
+**Testing finished code before deployment:** Phase 3
+---
+## NIST SP 800-115
+
+NIST SP 800-115 is a structured security-testing guide widely used by government and regulated organisations.
+
+### Objectives
+
+* Identify vulnerabilities
+* Validate security controls
+* Assess exploitability
+
+### Phases
+
+1. **Planning:** Define scope, objectives, rules, and communication.
+2. **Execution:** Perform:
+
+   * Reviews
+   * Target identification
+   * Vulnerability validation
+   * Penetration testing
+3. **Post-Testing:** Analyse findings, prioritise risks, and recommend remediation.
+
+**Scanner findings should first undergo:** Target Vulnerability Validation
+---
+## PTES
+
+The **Penetration Testing Execution Standard (PTES)** provides a practical, end-to-end workflow for penetration tests.
+
+### Seven Phases
+
+1. **Pre-Engagement:** Define scope, rules, testing times, contacts, and legal authorization.
+2. **Intelligence Gathering:** Perform passive and active reconnaissance.
+3. **Threat Modeling:** Identify valuable assets and likely attack paths.
+4. **Vulnerability Analysis:** Find and verify vulnerabilities.
+5. **Exploitation:** Exploit confirmed weaknesses to demonstrate impact.
+6. **Post-Exploitation:** Pivot, escalate privileges, and assess business risk.
+7. **Reporting:** Provide executive and technical findings with remediation.
+
+**Scope, rules, and authorization:** Phase 1 — Pre-Engagement Interactions
+---
