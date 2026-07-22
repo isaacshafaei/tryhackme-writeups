@@ -197,4 +197,5 @@ Multiple frameworks may be combined:
 **E-commerce web, mobile, and payment systems:**
 `OWASP WSTG, OWASP MASTG, PCI DSS`
 ---
+finito
 
