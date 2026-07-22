@@ -176,3 +176,25 @@ Framework selection depends on the client’s industry, technology, regulations,
 **iOS banking application:** OWASP Mobile Application Security Testing Guide
 **AWS controls assessment:** CSA Cloud Controls Matrix
 ---
+## Selecting a Penetration Testing Framework
+
+Framework choice depends on:
+
+* **Target type:** Web, mobile, network, cloud, or physical systems
+* **Regulations:** PCI DSS, CBEST, NIST, or HIPAA requirements
+* **Measurement needs:** OSSTMM supports repeatable metrics
+* **Team resources:** PTES is practical for standard engagements
+
+Multiple frameworks may be combined:
+
+* **Web applications:** OWASP WSTG
+* **Mobile applications:** OWASP MASTG
+* **Corporate networks:** PTES
+* **Federal environments:** NIST SP 800-115
+* **Payment systems:** PCI DSS
+* **UK financial institutions:** CBEST
+
+**E-commerce web, mobile, and payment systems:**
+`OWASP WSTG, OWASP MASTG, PCI DSS`
+---
+
