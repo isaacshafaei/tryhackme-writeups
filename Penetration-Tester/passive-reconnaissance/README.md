@@ -121,3 +121,32 @@ Other tools: **SecurityTrails**, **Subfinder**
 **DNSDumpster – highest Services/Banners count for tryhackme.com:** Cloudflare
 ---
 
+## Shodan
+
+**Shodan** is a search engine for internet-connected devices. It indexes publicly exposed services, devices, and their banners.
+
+### Information Shodan Provides
+
+* IP address and ASN
+* Hosting provider/organisation
+* Approximate location
+* Open ports and services
+* Service versions and banners
+* Vulnerability tags
+
+### Useful Search Filters
+
+```text
+hostname:tryhackme.com
+org:"TryHackMe"
+port:443 country:US
+http.component:"wordpress"
+```
+
+**Similar tool:** Censys
+
+### Answers
+
+* **Most Apache servers by country:** United States
+* **3rd most common Apache port:** 8080
+* **Most common nginx port:** 80
