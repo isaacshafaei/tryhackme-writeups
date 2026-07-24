@@ -97,4 +97,27 @@ THM{a5b83929888ed36acb0272971e438d78}
 ([notestime.in][1])
 
 [1]: https://notestime.in/cyber-security/advanced-penetration-testing-for-beginners/pentesting-tryhackme-labs?utm_source=chatgpt.com "TryHackMe Labs: Beginner to Advanced Pentesting Practice"
+---
+## Passive Subdomain Discovery
+
+Basic DNS tools like `dig` and `nslookup` only find known domains. Passive recon can discover hidden subdomains without directly contacting the target.
+
+### DNSDumpster
+
+* Free passive reconnaissance tool.
+* Finds subdomains, hosts, IPs, MX, TXT, and CNAME records.
+* Does not perform brute-force enumeration.
+* Can display relationships using visual maps.
+
+### Certificate Transparency (CT) Logs
+
+* Public logs of issued SSL/TLS certificates.
+* Certificates contain **SANs** that reveal covered domains/subdomains.
+* `crt.sh` can search for subdomains using `%`.
+* Often finds more subdomains than DNSDumpster.
+
+Other tools: **SecurityTrails**, **Subfinder**
+
+**DNSDumpster – highest Services/Banners count for tryhackme.com:** Cloudflare
+---
 
