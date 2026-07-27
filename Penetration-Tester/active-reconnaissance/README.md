@@ -46,3 +46,35 @@ A web browser is a useful tool for active reconnaissance because its traffic loo
 **Key idea:** Developer Tools, especially the **Network** and **Sources** tabs, can reveal information that is not visible on the webpage.
 ---
 
+## Ping
+
+**Ping** checks whether a host is reachable and responding using **ICMP**.
+
+* **Echo Request:** ICMP Type 8
+* **Echo Reply:** ICMP Type 0
+* **Linux/macOS:** `ping -c 5 IP`
+* **Windows:** `ping -n 5 IP`
+* **IPv4/IPv6:** `-4` / `-6`
+* **Data size option:** `-s`
+* **ICMP header size:** 8 bytes
+
+### TTL
+
+TTL can help with OS fingerprinting:
+
+* Linux: typically **64**
+* Windows: typically **128**
+
+Routers reduce TTL by 1 per hop, so the received value may be lower.
+
+### No Reply
+
+Possible causes:
+
+* Host is offline
+* ICMP is blocked by firewall
+* Network route is unavailable
+* NAT or cloud infrastructure blocks ICMP
+
+**Windows Firewall blocks ping by default:** Yes (Y)
+**10 pings to the target:** 10 replies
