@@ -78,3 +78,26 @@ Possible causes:
 
 **Windows Firewall blocks ping by default:** Yes (Y)
 **10 pings to the target:** 10 replies
+---
+### Traceroute — Short Note
+
+* **Traceroute** shows the path packets take from your computer to a destination.
+* It discovers each **hop (router)** using the **TTL** field.
+* For each TTL value, it sends **3 probe/test packets by default**.
+* `TTL = 1` → first router responds.
+* `TTL = 2` → second router responds.
+* It continues until the **destination** is reached.
+* **Multiple IPs in one hop:** The 3 probes may take different paths due to **load balancing**.
+* `*` = A probe received **no response** from that hop.
+* The route can change due to **dynamic routing, load balancing, and failover**.
+
+**Remember:**
+
+```text
+Hop number = TTL value
+IP address = responding router
+3 probes = 3 test packets sent for that TTL
+* = no response
+```
+---
+
