@@ -116,4 +116,44 @@ IP address = responding router
 * Server: **Apache**
 * Version: **2.4.61**
 ---
+### Netcat (nc) — Short Note
+
+* **Netcat (nc):** Versatile tool for **TCP/UDP** connections.
+* **Uses:** Banner grabbing, port probing, simple file transfers, and client-server communication.
+* **Banner grabbing:** `nc <IP> <PORT>` → connect and read the service banner.
+* **Listening:** `nc -vnlp 1234` → listen on port **1234**.
+* **Important flags:**
+
+  * `-l` = Listen
+  * `-p` = Port
+  * `-n` = No DNS resolution
+  * `-v` = Verbose
+  * `-k` = Keep listening
+  * `-6` = IPv6
+* **Secure option:** `ncat --ssl` for encrypted connections.
+* **Key principle:** **Connect → Read banner → Identify service/version.**
+
+**Question:** Connect to **port 21 (FTP)** with Netcat and read the banner. The **server version** shown in the banner is the answer.
+---
+### Active Reconnaissance Tools — Quick Reference
+
+| Tool                   | Main Purpose                                               | Example               |
+| ---------------------- | ---------------------------------------------------------- | --------------------- |
+| **Browser + DevTools** | Inspect headers, JavaScript, technologies, certificates    | `Ctrl + Shift + I`    |
+| **ping**               | Check if host is reachable; analyze TTL                    | `ping -c 10 <IP>`     |
+| **traceroute**         | Map network path and intermediate routers                  | `traceroute <IP>`     |
+| **mtr**                | Monitor network path in real time                          | `mtr <IP>`            |
+| **telnet**             | Legacy TCP connection & banner grabbing                    | `telnet <IP> <PORT>`  |
+| **Netcat (nc)**        | Port probing, banner grabbing, client/server communication | `nc <IP> <PORT>`      |
+| **Netcat Listener**    | Listen for connections                                     | `nc -lvnp <PORT>`     |
+| **curl**               | Retrieve HTTP headers/banner                               | `curl -I http://<IP>` |
+
+### Key Workflow
+
+**ping** → Confirm host is alive
+**traceroute/mtr** → Understand network path
+**nc/telnet** → Probe ports and identify services
+**Browser/DevTools** → Inspect web technologies and information
+
+**Next step:** Learn **Nmap** for automated host discovery and port scanning.
 
