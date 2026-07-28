@@ -100,4 +100,20 @@ IP address = responding router
 * = no response
 ```
 ---
+### TELNET & Banner Grabbing — Short Note
+
+* **TELNET:** Remote CLI protocol using **TCP port 23**.
+* **Security issue:** Sends usernames, passwords, and data in **cleartext**.
+* **Secure alternative:** **SSH**, which encrypts communication.
+* **Banner grabbing:** Connecting to a TCP port to read the service's **banner**, revealing software name and version.
+* **Example:** `telnet <IP> 80` → send an HTTP request → check the `Server` header.
+* **Why useful:** Software versions can be checked against known vulnerabilities (**CVE, Exploit-DB**).
+* **Alternatives:** `netcat (nc)` and `curl`.
+* **TLS services:** Use `curl`, `openssl s_client`, or `ncat --ssl` because TELNET cannot handle encryption.
+
+**Answers:**
+
+* Server: **Apache**
+* Version: **2.4.61**
+---
 
