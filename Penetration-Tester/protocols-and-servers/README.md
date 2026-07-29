@@ -25,4 +25,56 @@
 
 **Key point:** `telnet <IP>` with default settings connects to **TCP port 23**.
 ---
+### HTTP — Short Note
+
+* **HTTP:** Protocol used by browsers to communicate with web servers and transfer web pages/files.
+* **HTTP port:** **80/TCP**
+* **HTTPS port:** **443/TCP**
+* **HTTP:** Unencrypted/cleartext.
+* **HTTPS:** HTTP + **TLS encryption**.
+* **Manual HTTP request with Telnet:**
+
+  ```text
+  telnet <MACHINE_IP> 80
+  GET /index.html HTTP/1.1
+  Host: telnet
+  ```
+
+  Press **Enter twice** after the `Host` header.
+* **Useful header:** `Server:` may reveal the **web server software, version, and sometimes OS**.
+* **Common web servers:** Nginx, Apache, IIS.
+* **HTTP versions:** HTTP/1.1 (text-based), HTTP/2, HTTP/3 (QUIC/UDP).
+
+**TryHackMe task:** Connect to port 80 and request `/flag.thm`:
+
+```text
+GET /flag.thm HTTP/1.1
+Host: telnet
+```
+
+The content returned by the server is the answer.
+
+*** for example below is an example:
+### Telnet + HTTP — Short Note
+
+* **Telnet** can create a raw TCP connection to a server.
+* Connect to an HTTP server on port `80`:
+
+```bash
+telnet 10.112.149.39 80
+```
+
+* Manually send an HTTP GET request:
+
+```http
+GET /flag.thm HTTP/1.1
+Host: 10.112.149.39
+Connection: close
+```
+
+* Press **Enter twice** to send the request.
+* The server responds with the contents of `flag.thm`.
+
+**Key idea:** Telnet gives you a raw connection, allowing you to manually send an HTTP request instead of using a browser.
+---
 
