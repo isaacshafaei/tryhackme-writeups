@@ -77,4 +77,24 @@ Connection: close
 
 **Key idea:** Telnet gives you a raw connection, allowing you to manually send an HTTP request instead of using a browser.
 ---
+### FTP — Short Note
+
+| Topic             | Key Point                                                      |
+| ----------------- | -------------------------------------------------------------- |
+| **FTP**           | File Transfer Protocol; transfers files between systems        |
+| **FTP Port**      | **21** (control), **20** (active-mode data)                    |
+| **Security**      | Unencrypted → credentials and data sent in cleartext           |
+| **SFTP**          | Secure alternative over **SSH, port 22**                       |
+| **FTPS**          | FTP over TLS → **990** (implicit) or **21** (explicit)         |
+| **SCP**           | Secure file copying over **SSH, port 22**                      |
+| **Anonymous FTP** | Login with `anonymous` or `ftp`; always check during pentests  |
+| **Active Mode**   | Server connects back to client for data → port **20**          |
+| **Passive Mode**  | Client connects to server's high data port → firewall-friendly |
+| **FTP Commands**  | `USER`, `PASS`, `SYST`, `PASV`, `TYPE`, `STAT`, `ls`, `get`    |
+| **Download File** | `ftp TARGET_IP` → login → `ls` → `get filename`                |
+| **Common Server** | `vsftpd`, `ProFTPD`, `Pure-FTPd`                               |
+| **Recommended**   | Use **SFTP** instead of plain FTP                              |
+
+**Key pentesting point:** Check for **anonymous login** and exposed sensitive files.
+---
 
