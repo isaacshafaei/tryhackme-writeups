@@ -97,4 +97,28 @@ Connection: close
 
 **Key pentesting point:** Check for **anonymous login** and exposed sensitive files.
 ---
+### SMTP — Short Note
+
+| Topic              | Key Point                                                      |
+| ------------------ | -------------------------------------------------------------- |
+| **SMTP**           | Sends email between clients and mail servers                   |
+| **Port 25**        | Server-to-server SMTP (MTA ↔ MTA)                              |
+| **Port 587**       | Email submission (MUA → MSA), usually authenticated + STARTTLS |
+| **Port 465**       | SMTP with implicit TLS                                         |
+| **POP3**           | Receives/downloads emails                                      |
+| **IMAP**           | Accesses and synchronizes emails on the server                 |
+| **Main commands**  | `HELO/EHLO`, `MAIL FROM`, `RCPT TO`, `DATA`, `QUIT`            |
+| **Spoofing**       | SMTP alone does not verify the sender's identity               |
+| **Security**       | Plain SMTP is unencrypted; use TLS                             |
+| **Anti-spoofing**  | **SPF, DKIM, DMARC**                                           |
+| **Pentest checks** | Open relay, email spoofing, SMTP misconfiguration              |
+
+**Basic connection:**
+
+```bash
+telnet MACHINE_IP 25
+```
+
+**Useful security point:** SMTP is commonly involved in **phishing**, **email spoofing**, and **open relay** vulnerabilities.
+---
 
