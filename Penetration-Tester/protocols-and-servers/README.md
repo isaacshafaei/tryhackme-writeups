@@ -121,4 +121,38 @@ telnet MACHINE_IP 25
 
 **Useful security point:** SMTP is commonly involved in **phishing**, **email spoofing**, and **open relay** vulnerabilities.
 ---
+### POP3 — Short Note
+
+| Topic                | Key Point                                              |
+| -------------------- | ------------------------------------------------------ |
+| **POP3**             | Downloads emails from a mail server                    |
+| **Port 110**         | Plaintext POP3                                         |
+| **Port 995**         | POP3S (implicit TLS)                                   |
+| **Authentication**   | `USER username` + `PASS password`                      |
+| **STAT**             | Shows number of emails + total size                    |
+| **LIST**             | Lists emails and their sizes                           |
+| **RETR n**           | Retrieves email number `n`                             |
+| **DELE n**           | Marks email `n` for deletion                           |
+| **QUIT**             | Ends the session                                       |
+| **Default behavior** | Download emails and optionally delete them from server |
+| **Security**         | Port 110 sends credentials in cleartext                |
+| **Alternative**      | **IMAP** for multi-device synchronization              |
+
+**Useful commands:**
+
+```text
+telnet TARGET_IP 110
+USER frank
+PASS password
+STAT
+LIST
+RETR 1
+QUIT
+```
+
+**Example from the task:**
+
+* `STAT` response: **`+OK 0 0`**
+* Available emails: **0**
+---
 
