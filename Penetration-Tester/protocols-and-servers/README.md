@@ -156,3 +156,27 @@ QUIT
 * Available emails: **0**
 ---
 
+### IMAP — Short Note
+
+| Topic                 | Key Point                                                                  |
+| --------------------- | -------------------------------------------------------------------------- |
+| **IMAP**              | Synchronizes emails across multiple devices                                |
+| **Port 143**          | Plaintext IMAP                                                             |
+| **Port 993**          | IMAPS (implicit TLS)                                                       |
+| **Main advantage**    | Emails remain on the server and sync across devices                        |
+| **Folders**           | `INBOX`, `Trash`, `Drafts`, `Templates`, `Sent`                            |
+| **Login**             | `LOGIN username password`                                                  |
+| **List folders**      | `LIST "" "*"`                                                              |
+| **Read-only folder**  | `EXAMINE folder`                                                           |
+| **Read/write folder** | `SELECT folder`                                                            |
+| **Retrieve email**    | `FETCH n BODY[]`                                                           |
+| **Search emails**     | `SEARCH criteria`                                                          |
+| **Security**          | Plaintext IMAP exposes credentials                                         |
+| **Recon**             | `CAPABILITY` reveals supported features like `STARTTLS`, `IDLE`, and `ACL` |
+
+**Key difference:**
+
+* **POP3:** Downloads emails, often deletes them from the server.
+* **IMAP:** Keeps emails on the server and synchronizes them across devices.
+
+**Answer:** Default IMAP port = **143**.
