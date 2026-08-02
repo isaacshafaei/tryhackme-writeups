@@ -20,3 +20,50 @@
 * Confidentiality → Disclosure
 * Integrity → Alteration
 * Availability → Destruction
+---
+### Sniffing Attacks — Short Note
+
+| Topic                    | Key Point                                                                                 |
+| ------------------------ | ----------------------------------------------------------------------------------------- |
+| **Sniffing**             | Capturing network packets to read unencrypted data                                        |
+| **What can be exposed?** | Credentials, private messages, and other sensitive data                                   |
+| **Tools**                | `tcpdump` (CLI), Wireshark (GUI), `tshark` (CLI)                                          |
+| **Requirement**          | Access to network traffic + sufficient privileges                                         |
+| **Common targets**       | Cleartext protocols like Telnet, HTTP, FTP, POP3                                          |
+| **POP3 Port**            | **110**                                                                                   |
+| **Telnet Port**          | **23**                                                                                    |
+| **Main mitigation**      | Use encryption/TLS; replace Telnet with SSH                                               |
+| **Other defences**       | Network segmentation, encrypted tunnels/VLANs, 802.1X, Zero Trust, ARP spoofing detection |
+
+### Useful Commands
+
+```bash
+# Capture POP3 traffic
+sudo tcpdump port 110 -A
+
+# Capture Telnet traffic
+sudo tcpdump port 23 -A
+
+# Capture HTTP traffic
+sudo tcpdump port 80 -A
+
+# Capture FTP traffic
+sudo tcpdump port 21 -A
+
+# Save capture
+sudo tcpdump -w capture.pcap
+
+# Read capture
+tcpdump -r capture.pcap -A
+```
+
+### Wireshark Filters
+
+* **IMAP:** `imap`
+* **POP3:** `pop`
+* **HTTP:** `http`
+* **FTP:** `ftp`
+
+**Key idea:** Cleartext protocols allow anyone with access to the traffic path to potentially capture sensitive information.
+---
+
