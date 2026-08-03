@@ -66,4 +66,23 @@ tcpdump -r capture.pcap -A
 
 **Key idea:** Cleartext protocols allow anyone with access to the traffic path to potentially capture sensitive information.
 ---
+### MITM Attack — Short Summary Note
 
+| Topic                | Key Point                                                                                                               |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **MITM**             | Attacker secretly positions themselves between two communicating parties and can **intercept or modify** communication. |
+| **Main requirement** | Weak/missing **authentication and integrity protection**.                                                               |
+| **ARP Spoofing**     | Redirects local network traffic to the attacker by forging ARP messages.                                                |
+| **DNS Spoofing**     | Provides fake DNS responses to redirect victims to attacker-controlled systems.                                         |
+| **Rogue AP**         | Fake Wi-Fi access point that routes victim traffic through the attacker.                                                |
+| **BGP Hijacking**    | Redirects traffic by announcing false BGP routes at the Internet routing level.                                         |
+| **Common tools**     | Bettercap, Ettercap, mitmproxy, Responder.                                                                              |
+| **Against HTTPS**    | SSL stripping, fake certificates, or compromised/rogue CAs.                                                             |
+| **Defences**         | HTTPS/TLS, HSTS, Certificate Transparency, certificate pinning, DANE, proper certificate validation.                    |
+| **Core protection**  | Use **strong authentication + encryption/signing** to ensure confidentiality and integrity.                             |
+
+**Answers:**
+
+* Ettercap interfaces: **3**
+* Ways to invoke Bettercap: **3**
+---
