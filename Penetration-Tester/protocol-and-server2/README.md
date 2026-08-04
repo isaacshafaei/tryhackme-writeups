@@ -110,3 +110,88 @@ tcpdump -r capture.pcap -A
 **DNS over TLS = DoT** → **Port 853**.
 ---
 
+### SSH — Short Summary Note
+
+| Topic                          | Key Point                                                                                                      |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| **SSH**                        | Secure protocol for remote administration; provides **confidentiality, integrity, and server authentication**. |
+| **Default port**               | **22/TCP**                                                                                                     |
+| **Password authentication**    | Simple but vulnerable to brute-force attacks if passwords are weak.                                            |
+| **Public key authentication**  | Recommended; uses a **private key** (secret) and **public key** (stored on server).                            |
+| **Certificate authentication** | Uses an SSH Certificate Authority for scalable authentication.                                                 |
+| **MFA**                        | Combines SSH authentication with another factor, such as an OTP.                                               |
+| **Host key verification**      | Verifies the server's identity and helps prevent MITM attacks. Keys are stored in `~/.ssh/known_hosts`.        |
+| **Generate key**               | `ssh-keygen -t ed25519`                                                                                        |
+| **Public key location**        | `~/.ssh/id_ed25519.pub`                                                                                        |
+| **Private key**                | `~/.ssh/id_ed25519` — keep secret and protect with a passphrase.                                               |
+| **Authorized keys**            | Server stores allowed public keys in `~/.ssh/authorized_keys`.                                                 |
+| **SFTP**                       | Secure file transfer over SSH; recommended for interactive transfers.                                          |
+| **SCP**                        | Secure file copying over SSH; traditionally used but being phased out in favour of SFTP.                       |
+| **rsync over SSH**             | Efficient for large transfers and directory synchronization.                                                   |
+| **SSH hardening**              | Disable password/root login, restrict users, use modern algorithms, and use tools like Fail2ban.               |
+
+### Useful Commands
+
+```bash
+# Connect
+ssh username@IP
+
+# Non-standard port
+ssh -p 2222 username@IP
+
+# Use private key
+ssh -i ~/.ssh/id_ed25519 username@IP
+
+# Execute a command remotely
+ssh username@IP "uname -r"
+
+# Copy remote file to local
+scp username@IP:/path/file.txt ./
+
+# Copy local file to remote
+scp file.txt username@IP:/path/
+
+# SFTP
+sftp username@IP
+```
+
+### Key Answers from the Task
+
+* **Kernel release:** `5.15.0-119-generic`
+* **SCP download size:** **415 KB**
+---
+### Password Attacks — Short Summary Note
+
+| Topic                   | Key Point                                                                                                                 |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| **Authentication**      | Proves who you are using **something you know, have, or are**.                                                            |
+| **Password attacks**    | Target the **"something you know"** factor.                                                                               |
+| **Password Guessing**   | Uses personal information about the target.                                                                               |
+| **Dictionary Attack**   | Tries common words from a wordlist.                                                                                       |
+| **Brute Force**         | Tries all possible character combinations; longer passwords are harder to crack.                                          |
+| **Credential Stuffing** | Uses leaked username/password pairs from previous breaches.                                                               |
+| **Password Spraying**   | Tries a few common passwords against many accounts to avoid lockouts.                                                     |
+| **Hybrid Attack**       | Combines dictionary words with patterns, numbers, or substitutions.                                                       |
+| **Wordlists**           | Common examples: `rockyou.txt`, SecLists, CrackStation.                                                                   |
+| **THC Hydra**           | Automates password attacks against services such as **FTP, SSH, POP3, IMAP, SMTP, and HTTP**.                             |
+| **Hydra syntax**        | `hydra -l username -P wordlist.txt server service`                                                                        |
+| **Other tools**         | Medusa, Ncrack, NetExec, Burp Suite Intruder, Hashcat, John the Ripper.                                                   |
+| **Defences**            | Strong passwords, MFA, rate limiting, account lockout, CAPTCHA, passwordless authentication, breached-password detection. |
+
+### Useful Hydra Options
+
+* `-l` → single username
+* `-L` → username list
+* `-p` → single password
+* `-P` → password wordlist
+* `-s` → custom port
+* `-V` / `-vV` → verbose
+* `-t` → number of parallel tasks
+* `-f` → stop after finding a valid password
+
+### Task Answer
+
+* **IMAP username:** `lazie`
+* **Password:** `butterfly`
+---
+
