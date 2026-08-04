@@ -86,3 +86,27 @@ tcpdump -r capture.pcap -A
 * Ettercap interfaces: **3**
 * Ways to invoke Bettercap: **3**
 ---
+### TLS — Short Summary Note
+
+| Topic                | Key Point                                                                                                      |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **SSL/TLS**          | TLS encrypts network communication to protect **confidentiality and integrity** and help prevent MITM attacks. |
+| **Current standard** | **TLS 1.3** is the latest standard; TLS 1.2 is still widely used. SSL 2.0/3.0 and TLS 1.0/1.1 are deprecated.  |
+| **HTTPS**            | HTTP + TLS → **Port 443**                                                                                      |
+| **FTPS**             | FTP + TLS → **Port 990** (implicit TLS)                                                                        |
+| **SMTPS**            | SMTP + TLS → **Port 465**                                                                                      |
+| **POP3S**            | POP3 + TLS → **Port 995**                                                                                      |
+| **IMAPS**            | IMAP + TLS → **Port 993**                                                                                      |
+| **DoT**              | DNS over TLS → **Port 853**                                                                                    |
+| **DoH**              | DNS over HTTPS → **Port 443**                                                                                  |
+| **Implicit TLS**     | Encryption starts immediately when connecting.                                                                 |
+| **STARTTLS**         | Starts with a cleartext connection, then upgrades to TLS.                                                      |
+| **TLS Handshake**    | Client and server negotiate parameters, authenticate using certificates, and establish shared secret keys.     |
+| **TLS 1.3**          | Faster handshake, forward secrecy by default, simplified cipher suites, and more encrypted handshake data.     |
+| **Certificates**     | Trusted CAs verify the server's identity. Key details: **issued to, issuer, validity period**.                 |
+| **Testing tools**    | `testssl.sh`, `sslyze`, SSL Labs, `nmap ssl-enum-ciphers`                                                      |
+
+**Important answer:**
+**DNS over TLS = DoT** → **Port 853**.
+---
+
