@@ -16,3 +16,27 @@
 * **UDP Ping:** Uses ICMP "port unreachable" responses.
 
 **Flow:** Host Discovery → Port Scanning → Service Detection → Vulnerability Analysis.
+---
+### Network Segments & Subnets — Short Notes
+
+* **Network segment:** Physical network connection (switch/Wi-Fi).
+* **Subnet:** Logical network with its own IP range, connected through a router.
+* **Router:** Connects different subnets; **firewall** may control traffic between them.
+
+### Subnet Examples:
+
+* **/16 → 255.255.0.0** ≈ 65,000 hosts
+* **/24 → 255.255.255.0** ≈ 250 hosts
+
+### ARP Discovery:
+
+* **ARP** finds live hosts by requesting their **MAC addresses**.
+* Works only inside the **same subnet** (Layer 2).
+* ARP packets **cannot cross routers**.
+* For different subnets, traffic goes through the **default gateway**.
+
+**Key Point:**
+ARP scan → Same subnet only.
+Different subnet → Use IP-based discovery (ICMP/TCP/UDP).
+---
+
