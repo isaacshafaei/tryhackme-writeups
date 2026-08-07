@@ -40,3 +40,25 @@ ARP scan → Same subnet only.
 Different subnet → Use IP-based discovery (ICMP/TCP/UDP).
 ---
 
+### TCP/IP Host Discovery — Short Notes
+
+* Host discovery can use:
+
+  * **ARP** → Link Layer
+  * **ICMP** → Network Layer
+  * **TCP** → Transport Layer
+  * **UDP** → Transport Layer
+
+### Protocols:
+
+* **ARP:** Broadcasts a request to find a device’s **MAC address** from its IP.
+* **ICMP Ping:** Uses:
+
+  * Type 8 = Echo Request
+  * Type 0 = Echo Reply
+* **TCP/UDP Scans:** Send packets to specific ports to check if a host responds, useful when ICMP is blocked.
+
+**Important:**
+
+* Same subnet ping → ARP happens first to find MAC address.
+* After ARP cache is stored → No need for new ARP requests for the same device.
