@@ -87,5 +87,5 @@ Different subnet → Use IP-based discovery (ICMP/TCP/UDP).
 * **256 × 25 = 6,400 IP addresses**
 
 ✅ **Answer: 6,400 IP addresses**.
----
+----
 
