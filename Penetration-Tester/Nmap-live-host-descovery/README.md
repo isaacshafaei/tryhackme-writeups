@@ -62,3 +62,30 @@ Different subnet → Use IP-based discovery (ICMP/TCP/UDP).
 
 * Same subnet ping → ARP happens first to find MAC address.
 * After ARP cache is stored → No need for new ARP requests for the same device.
+---
+### Nmap Target Specification — Short Note
+
+* **List:** `IP1 IP2 IP3` → scans specific targets.
+* **Range:** `10.11.12.15-20` → scans `.15` to `.20` = **6 IPs**.
+* **Subnet:** `10.10.12.13/29` → scans **8 IPs** (`.8–.15`).
+* **File:** `nmap -iL list.txt` → scans targets from a file.
+* **List targets only:** `nmap -sL TARGETS` → shows what Nmap would scan, **without scanning**.
+* **`-n`** → disables DNS resolution.
+
+### Your Commands
+
+`nmap -sL -n 10.10.12.13/29`
+
+* `-sL` = list targets only
+* `-n` = no DNS lookup
+* Result: **8 IP addresses**, `.8–.15`.
+
+`nmap -sL -n 10.10.0-255.101-125`
+
+* `10.10.0-255` = **256** values
+* `101-125` = **25** values
+* **256 × 25 = 6,400 IP addresses**
+
+✅ **Answer: 6,400 IP addresses**.
+---
+
