@@ -88,4 +88,37 @@ Different subnet → Use IP-based discovery (ICMP/TCP/UDP).
 
 ✅ **Answer: 6,400 IP addresses**.
 ----
+### Nmap Host Discovery — Short Note
 
+* **Goal:** Find live hosts before port scanning.
+* `nmap -sn TARGETS` → Host discovery only, **no port scan**.
+* **Privileged + same subnet:** Nmap uses **ARP**.
+* **Privileged + remote:** ICMP + TCP ACK/SYN + ICMP timestamp.
+* **Unprivileged + remote:** TCP SYN to ports **80/443**.
+* `-PR` → Force **ARP scan**.
+* `-PR -sn` → ARP host discovery only.
+* ARP works only on the **same subnet**.
+* **ARP Reply → host is alive.**
+
+### Command
+
+`nmap -PR -sn CONNECTION_IP/24`
+
+Scans **256 IPs** and reports which are alive.
+
+**Answer:** **1 host alive**.
+---
+### ICMP Host Discovery — Short Note
+
+* **ICMP Echo:** `-PE` → Type 8 → Echo Reply (Type 0)
+* **ICMP Timestamp:** `-PP` → Type 13 → Reply Type 14
+* **ICMP Address Mask:** `-PM` → Type 17 → Reply Type 18
+* Add **`-sn`** → discover hosts without port scanning.
+* ICMP can be **blocked by firewalls**, so use multiple discovery methods.
+
+### Answers
+
+1. Timestamp → **`-PP`**
+2. Address Mask → **`-PM`**
+3. Echo → **`-PE`**
+---
