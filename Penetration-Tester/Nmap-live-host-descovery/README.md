@@ -122,3 +122,25 @@ Scans **256 IPs** and reports which are alive.
 2. Address Mask → **`-PM`**
 3. Echo → **`-PE`**
 ---
+### TCP/UDP Host Discovery — Short Note
+
+* **TCP SYN Ping:** `-PS` → sends SYN. Response = host is alive.
+
+  * **Does not require privileged account:** unprivileged users complete 3-way handshake.
+* **TCP ACK Ping:** `-PA` → sends ACK, normally requires **privileged/root** access.
+
+  * Response is usually **RST**.
+* **UDP Ping:** `-PU` → sends UDP packet. **ICMP Port Unreachable** = host is alive.
+* **`-sn`** → host discovery only, no port scanning.
+
+### Port Examples
+
+* `-PS80` → TCP SYN to port 80
+* `-PS21-25` → ports 21–25
+* `-PS80,443` → ports 80 and 443
+
+### Answers
+
+1. **Unprivileged:** TCP **SYN Ping (`-PS`)**
+2. **Privileged:** TCP **ACK Ping (`-PA`)**
+3. **Telnet port (23):** `-PS23`
