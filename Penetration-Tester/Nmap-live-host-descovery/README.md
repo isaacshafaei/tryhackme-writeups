@@ -144,3 +144,15 @@ Scans **256 IPs** and reports which are alive.
 1. **Unprivileged:** TCP **SYN Ping (`-PS`)**
 2. **Privileged:** TCP **ACK Ping (`-PA`)**
 3. **Telnet port (23):** `-PS23`
+---
+### Reverse DNS (rDNS) — Short Note
+
+* **rDNS:** IP address → hostname (opposite of normal DNS).
+* `-R` → force reverse DNS lookup for **all hosts**, including offline ones.
+* `-n` → disable DNS lookups.
+* `--dns-servers IP` → use a specific DNS server.
+* Useful for discovering **hostnames and network roles**.
+
+✅ **Answer:** `-R`
+---
+
