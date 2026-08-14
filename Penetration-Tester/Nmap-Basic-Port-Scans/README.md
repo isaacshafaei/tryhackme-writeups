@@ -18,3 +18,20 @@
 
 🎯 **Most interesting for a pentester:** **Open** — it means a service is accessible and can be investigated.
 ---
+### TCP Flags — Short Note
+![tcp](tcp.png)
+TCP has **6 important flags**:
+
+* **URG** → urgent data
+* **ACK** → acknowledges data
+* **PSH** → push data to application
+* **RST** → reset/terminate connection
+* **SYN** → start TCP connection
+* **FIN** → finish connection
+
+**Answers:**
+
+* Reset flag → **RST**
+* First TCP handshake flag → **SYN**
+---
+
