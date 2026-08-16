@@ -50,3 +50,24 @@ TCP has **6 important flags**:
 * **Port 53:** **domain/DNS** Domain
 
 ---
+### TCP SYN Scan — Short Note
+
+* `-sS` → **TCP SYN scan**.
+* Requires **root/sudo (privileged user)**.
+* Sends **SYN** and waits for a response.
+* **SYN/ACK → port is open**, then Nmap sends **RST** instead of completing the handshake.
+* Faster/stealthier than `-sT` because no full TCP connection is established.
+* `-sS` is Nmap's **default scan for privileged users**.
+
+### From the example:
+
+```text
+21/tcp  open  ftp
+22/tcp  open  ssh
+53/tcp  open  domain
+80/tcp  open  http
+```
+
+* **Open ports:** **4**
+* **SYN-ACK packets received:** **4** (one for each open port).
+---
