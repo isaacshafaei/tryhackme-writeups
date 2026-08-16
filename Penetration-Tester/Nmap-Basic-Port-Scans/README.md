@@ -34,4 +34,19 @@ TCP has **6 important flags**:
 * Reset flag → **RST**
 * First TCP handshake flag → **SYN**
 ---
+### TCP Connect Scan — Short Note
 
+* `-sT` → performs a **TCP 3-way handshake** to check open ports.
+* **Open:** SYN → SYN/ACK → ACK → then connection is closed with RST/ACK.
+* **Closed:** Target responds with RST/ACK.
+* Unprivileged users → **`-sT` is the available TCP scan**.
+* Default → scans **1000 common ports**.
+* `-F` → fast scan, **100 ports**.
+* `-r` → scan ports in sequential order.
+
+### Answers
+
+* **FTP (port 21):** **open** *(the `open` is masking the answer in your copied text)*
+* **Port 53:** **domain/DNS** Domain
+
+---
