@@ -71,3 +71,21 @@ TCP has **6 important flags**:
 * **Open ports:** **4**
 * **SYN-ACK packets received:** **4** (one for each open port).
 ---
+### Short note
+
+**UDP scan (`-sU`)** checks UDP ports. UDP has **no handshake**, so open ports may not reply.
+
+* **Closed UDP port** → usually sends ICMP **Port Unreachable** → Nmap marks `closed`.
+* **No response** → Nmap considers it **open|filtered** because it can't confirm whether it's open or filtered.
+* `-sU` → UDP scan
+* `--top-ports 10` → scan the 10 most common UDP ports
+* Can combine with TCP scans, e.g. `-sS -sU`.
+
+Example:
+
+```bash
+nmap -sU --top-ports 10 TARGET
+```
+
+In the example, **UDP 53 = open DNS**.
+---
