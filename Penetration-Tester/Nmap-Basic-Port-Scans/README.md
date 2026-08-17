@@ -88,4 +88,8 @@ nmap -sU --top-ports 10 TARGET
 ```
 
 In the example, **UDP 53 = open DNS**.
+What is the state of port number 161 over UDP in the target machine? **closed**
+
+Correct Answer
+What is the service name according to Nmap on port 161? **snmp**
 ---
