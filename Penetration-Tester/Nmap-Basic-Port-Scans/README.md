@@ -93,3 +93,36 @@ What is the state of port number 161 over UDP in the target machine? **closed**
 Correct Answer
 What is the service name according to Nmap on port 161? **snmp**
 ---
+### Short note
+
+**Port selection:**
+
+* `-p22,80,443` → specific ports
+* `-p1-1023` → port range
+* `-p-` → all **65,535** ports
+* `-F` → top 100 ports
+* `--top-ports 10` → top 10 ports
+
+**Timing:**
+
+* `-T0` → slowest/paranoid
+* `-T3` → default/normal
+* `-T4` → fast, common in CTFs
+* `-T5` → fastest/aggressive
+
+**Packet rate:**
+
+* `--max-rate 10` → max 10 packets/sec
+* `--min-rate 10` → at least 10 packets/sec
+
+**Parallel probes:**
+
+* `--min-parallelism 64` → at least 64 probes simultaneously.
+
+### Answers
+
+1. `-p5000-5500`
+2. `--min-parallelism 64`
+3. `-T0`
+---
+
