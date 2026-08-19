@@ -29,3 +29,33 @@ This room covers **advanced Nmap scans and evasion techniques**.
 **Main idea:** These scans manipulate TCP flags to learn about **open/closed ports or firewalls** without performing a normal TCP connection.
 ---
 
+### Short note
+
+**Null Scan `-sN`**
+
+* Sets **0 flags**.
+* No response → `open|filtered`
+* RST → `closed`
+
+**FIN Scan `-sF`**
+
+* Sets **1 flag: FIN**
+* No response → `open|filtered`
+* RST → `closed`
+
+**Xmas Scan `-sX`**
+
+* Sets **3 flags: FIN + PSH + URG**
+* No response → `open|filtered`
+* RST → `closed`
+
+### Key idea
+
+```text
+Null → 0 flags
+FIN  → 1 flag
+Xmas → 3 flags
+```
+
+These scans are mainly useful against **stateless firewalls**; stateful firewalls can usually detect/block them.
+---
