@@ -55,6 +55,8 @@ This room covers **advanced Nmap scans and evasion techniques**.
 Null → 0 flags
 FIN  → 1 flag
 Xmas → 3 flags
+Launch a FIN scan against the target VM. How many ports appear as open|filtered? 9
+Repeat your scan launching a null scan against the target VM. How many ports appear as open|filtered? 9
 ```
 
 These scans are mainly useful against **stateless firewalls**; stateful firewalls can usually detect/block them.
