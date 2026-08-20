@@ -70,3 +70,25 @@ These scans are mainly useful against **stateless firewalls**; stateful firewall
 
 **Answer:** `2` flags.
 ---
+## TCP ACK / Window / Custom Scans
+
+* **ACK Scan:** `nmap -sA <target>`
+
+  * Sends **ACK** → receives **RST**.
+  * Cannot detect open ports.
+  * Used mainly to **map firewall rules**.
+  * `unfiltered` = firewall allows traffic.
+
+* **Window Scan:** `nmap -sW <target>`
+
+  * Similar to ACK scan.
+  * Checks the **TCP Window field** in RST packets.
+  * Can sometimes identify open/closed ports.
+
+* **Custom Scan:** `nmap --scanflags <flags> <target>`
+
+  * Example: `--scanflags RSTSYNFIN`
+  * Lets you choose custom TCP flags.
+
+**Key:** ACK/Window scans reveal **firewall behavior**, not necessarily running services.
+---
