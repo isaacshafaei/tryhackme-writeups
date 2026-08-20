@@ -60,3 +60,13 @@ Repeat your scan launching a null scan against the target VM. How many ports app
 ```
 These scans are mainly useful against **stateless firewalls**; stateful firewalls can usually detect/block them.
 ---
+### Short note — Maimon Scan
+
+* **Option:** `-sM`
+* Sets **2 flags:** `FIN + ACK`
+* Some older BSD systems may behave differently and reveal open ports.
+* Most modern systems respond with **RST** for both open and closed ports, so it's usually unreliable.
+* Mainly useful for understanding TCP scanning techniques.
+
+**Answer:** `2` flags.
+---
