@@ -91,4 +91,31 @@ These scans are mainly useful against **stateless firewalls**; stateful firewall
   * Lets you choose custom TCP flags.
 
 **Key:** ACK/Window scans reveal **firewall behavior**, not necessarily running services.
+
+i misssssssssssssssssssssssssssssss here
+---
+## Spoofing & Decoy Scans
+
+* **IP Spoofing:** `-S SPOOFED_IP`
+
+  * Makes packets appear to come from another IP.
+  * Need `-e INTERFACE -Pn`.
+  * Must be able to **capture the replies**.
+
+* **MAC Spoofing:** `--spoof-mac SPOOFED_MAC`
+
+  * Works when attacker and target are on the **same network**.
+
+* **Decoy Scan:** `-D IP1,IP2,ME`
+
+  * Makes the scan appear to come from multiple IPs.
+  * `ME` = your real IP.
+
+### Answers
+
+1. Spoof source IP:
+   `-S 10.10.10.11`
+
+2. Add two decoys:
+   `-D 10.10.20.21,10.10.20.28,ME`
 ---
