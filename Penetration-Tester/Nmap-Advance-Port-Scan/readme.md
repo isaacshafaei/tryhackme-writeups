@@ -91,8 +91,11 @@ These scans are mainly useful against **stateless firewalls**; stateful firewall
   * Lets you choose custom TCP flags.
 
 **Key:** ACK/Window scans reveal **firewall behavior**, not necessarily running services.
+**Questions**
+* **TCP Window Scan flags:** 1 (ACK)
+* **Reset flag:** `R`
+* **ACK scan unfiltered ports:** 5
 
-i misssssssssssssssssssssssssssssss here
 ---
 ## Spoofing & Decoy Scans
 
