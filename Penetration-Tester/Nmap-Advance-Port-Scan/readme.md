@@ -122,3 +122,19 @@ These scans are mainly useful against **stateless firewalls**; stateful firewall
 2. Add two decoys:
    `-D 10.10.20.21,10.10.20.28,ME`
 ---
+## Firewall, IDS & Fragmentation
+
+* **Firewall:** Allows or blocks network traffic based on rules.
+* **IDS:** Inspects traffic for malicious patterns and raises alerts.
+* **Fragmentation:** `-f` splits packets into **8-byte fragments**.
+
+  * `-ff` = **16-byte fragments**.
+  * `--mtu NUM` = custom fragment size (**must be a multiple of 8**).
+* **Extra data:** `--data-length NUM` adds bytes to packets.
+
+### Question
+
+**64-byte TCP segment with `-ff` (16 bytes):**
+
+**64 ÷ 16 = 4 IP fragments**
+---
