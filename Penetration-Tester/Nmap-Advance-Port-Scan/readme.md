@@ -138,6 +138,25 @@ These scans are mainly useful against **stateless firewalls**; stateful firewall
 
 **64 ÷ 16 = 4 IP fragments**
 ---
+## Idle (Zombie) Scan
+
+* **Idle scan** hides the attacker’s IP by using an **idle host (zombie)**.
+* Command:
+
+  ```bash
+  nmap -sI ZOMBIE_IP MACHINE_IP
+  ```
+* Nmap checks the zombie’s **IP ID** before and after the probe.
+
+  * **IP ID +1** → port closed/filtered
+  * **IP ID +2** → port open
+* The zombie must be **truly idle** for accurate results.
+
+**Question:**
+Zombie IP = `10.10.5.5`
+
+**Answer:** `-sI 10.10.5.5` ✅
+---
 ## Nmap Reasons & Verbosity
 
 * **`--reason`** → Shows why Nmap considers a host/port open or closed.
