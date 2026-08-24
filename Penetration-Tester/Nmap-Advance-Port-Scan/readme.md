@@ -138,4 +138,20 @@ These scans are mainly useful against **stateless firewalls**; stateful firewall
 
 **64 ÷ 16 = 4 IP fragments**
 ---
-adding something
+## Nmap Reasons & Verbosity
+
+* **`--reason`** → Shows why Nmap considers a host/port open or closed.
+
+  * Open port → usually `syn-ack`
+  * Host up → e.g. `arp-response`
+* **`-v`** → Verbose output.
+* **`-vv`** → More verbose.
+* **`-d` / `-dd`** → Debugging details.
+
+**Command:**
+
+```bash
+nmap -sS -F --reason MACHINE_IP
+```
+
+**Answer:** `syn-ack` ✅
