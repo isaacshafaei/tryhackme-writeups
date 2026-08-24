@@ -174,3 +174,43 @@ nmap -sS -F --reason MACHINE_IP
 ```
 
 **Answer:** `syn-ack` ✅
+---
+## Nmap Scan Types — Quick Cheat Sheet
+
+### Scan Types
+
+| Scan            | Command             |
+| --------------- | ------------------- |
+| **Null**        | `-sN`               |
+| **FIN**         | `-sF`               |
+| **Xmas**        | `-sX`               |
+| **Maimon**      | `-sM`               |
+| **ACK**         | `-sA`               |
+| **Window**      | `-sW`               |
+| **Custom**      | `--scanflags FLAGS` |
+| **Spoof IP**    | `-S IP`             |
+| **Spoof MAC**   | `--spoof-mac MAC`   |
+| **Decoy**       | `-D IP1,IP2,ME`     |
+| **Idle/Zombie** | `-sI ZOMBIE_IP`     |
+
+### Packet Options
+
+| Option               | Purpose                      |
+| -------------------- | ---------------------------- |
+| `-f`                 | Fragment into 8-byte pieces  |
+| `-ff`                | Fragment into 16-byte pieces |
+| `--source-port PORT` | Set source port              |
+| `--data-length NUM`  | Add random data              |
+
+### Output Options
+
+| Option     | Purpose                               |
+| ---------- | ------------------------------------- |
+| `--reason` | Shows why Nmap reached its conclusion |
+| `-v`       | Verbose                               |
+| `-vv`      | Very verbose                          |
+| `-d`       | Debugging                             |
+| `-dd`      | More debugging details                |
+
+**Key idea:** Null, FIN, and Xmas scans rely on responses from **closed ports**, while Maimon, ACK, and Window scans can provide information about **open/closed ports or firewall behavior**.
+
