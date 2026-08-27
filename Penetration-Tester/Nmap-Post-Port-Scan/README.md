@@ -38,3 +38,46 @@
 
 **Answer:** `Linux`
 ---
+## Nmap Scripting Engine (NSE) — Short Note
+
+* **NSE** allows Nmap to run **Lua scripts** for advanced scanning and enumeration.
+* Scripts are stored in:
+
+  ```bash
+  /usr/share/nmap/scripts
+  ```
+* Run default scripts:
+
+  ```bash
+  nmap -sC MACHINE_IP
+  ```
+
+  `-sC` = `--script=default`
+* Run a specific script:
+
+  ```bash
+  nmap --script "http-date" MACHINE_IP
+  ```
+* Run scripts by pattern:
+
+  ```bash
+  nmap --script "ftp*" MACHINE_IP
+  ```
+* Useful categories:
+
+  * `auth` → authentication
+  * `brute` → brute force
+  * `discovery` → information gathering
+  * `exploit` → exploitation
+  * `safe` → generally safe checks
+  * `vuln` → vulnerability detection
+  * `version` → service versions
+* **Be careful:** some scripts are intrusive, perform brute force, DoS checks, or exploitation. Only use them on authorized targets.
+
+### Answers
+
+1. `http-robots.txt` → checks for **robots.txt** and extracts/displays its entries.
+2. MS15-034 / CVE-2015-1635 → **`http-vuln-cve2015-1635`**
+3. Port 80 `http-title` → **Welcome to nginx on Debian!**
+4. SSH host key algorithm using SHA2-512 → **`rsa-sha2-512`**
+---
