@@ -81,3 +81,18 @@
 3. Port 80 `http-title` → **Welcome to nginx on Debian!**
 4. SSH host key algorithm using SHA2-512 → **`rsa-sha2-512`**
 ---
+## Nmap Output Formats — Short Note
+
+Save Nmap results for later analysis:
+
+* **Normal:** `-oN filename`
+* **Grepable:** `-oG filename` → easy to search with `grep`
+* **XML:** `-oX filename` → useful for tools/programmatic processing
+* **All 3 formats:** `-oA filename`
+* **Script Kiddie:** `-oS filename` → not recommended
+
+### Answers
+
+1. Greppable format: **`-oG`**
+2. XML format possible? **`yea`**
+---
